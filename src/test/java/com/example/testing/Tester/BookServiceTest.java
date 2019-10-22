@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -49,13 +51,14 @@ public void show()
 
 }
     @Test
-    public void addServiceTest(){
-        Book books1=new Book();
-        books1.setBookid(1);
-        books1.setTitle("yaman");
-        Mockito.when(bookRepository.save(books1)).thenReturn(books1);
-        String s= bookService.add(books1);
-        Assert.assertEquals("ADDED SUCCESSFULLY",s);
+    public void add()
+    {
+        Book book=new Book();
+        book.setBookid(1);
+        book.setTitle("Yama");
+        Mockito.when(bookRepository.findAll()).thenReturn(Arrays.asList(book));
+        ResponseEntity<List<Book>> b= bookService.add(book);
+        Assert.assertEquals(new ResponseEntity<>(Arrays.asList(book), HttpStatus.OK),b);
     }
 
     @Test
